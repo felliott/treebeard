@@ -1062,14 +1062,16 @@
                                     value = self.options.lazyLoadPreprocess.call(self, value);
                                 }
                                 if (!$.isArray(value)) {
-                                    value = value.data;
+                                    value = self.options.dataLocation ? self.options.dataLocation(value.data) : value.data;
                                 }
                                 var isUploadItem = function(element) {
                                     return element.data.tmpID;
                                 };
                                 tree.children = tree.children.filter(isUploadItem);
+                                var data;
                                 for (i = 0; i < value.length; i++) {
-                                    child = self.buildTree(value[i], tree);
+                                    data = self.options.dataLocation ? self.options.dataLocation(value[i]) : value[i];
+                                    child = self.buildTree(data, tree);
                                     tree.add(child);
                                 }
                                 tree.open = true;
